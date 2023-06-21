@@ -59,12 +59,13 @@ async function readFileChunks(file, token) {
 async function handleUpload(selectedFiles) {
   selectedFile = selectedFiles[0];
   const filename = selectedFiles[0]['name'];
-  const token = await startUpload(filename);
+  const uploader = await startUpload(filename);
+  const token = uploader.upload_token;
   $('#tokenRow').show(300);
   const callback = continueUpload(token);
   readFileChunks(selectedFile, token);
   // parseFile(selectedFile, callback, 0, x=>(changeStatus("UPLOAD", "Finished Reading File")))
-  updateFormOnUpload(selectedFiles[0]['name'], token);
+  updateFormOnUpload(uploader.filename, token);
 
   document.getElementById('fileUploadInput').colSpan = selectedFiles.length;
   document.getElementById('controlButtons').colSpan = selectedFiles.length+1;
@@ -78,7 +79,7 @@ async function startUpload(filename) {
   try {
     const a = await token;
     changeStatus('UPLOAD', 'Begun upload - Token:' + a['upload_token']);
-    return a['upload_token'];
+    return { upload_token: a['upload_token'], filename: a['filename'] };
   } catch (e) {
     changeStatus('UPLOAD | ERROR;', e);
   }
@@ -163,7 +164,7 @@ function finishUpload() {
 
 async function handleUrlUpload(url) {
   $('#uploadLoading').css('display', 'block');
-  const token = await startUpload(url);
+  const token = (await startUpload(url)).upload_token;
   await continueUrlUpload(token, url);
 }
 
