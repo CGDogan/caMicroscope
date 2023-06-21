@@ -132,7 +132,10 @@ function finishUpload() {
     changeStatus('UPLOAD | Finished', a, reset); reset = false;
     console.log(a);
     if (a.filename) {
+      console.log("changing name from")
+      console.log(document.getElementById('filename'+0).value)
       document.getElementById('filename'+0).value = a.filename;
+      console.log(document.getElementById('filename'+0).value)
     }
     if (typeof a === 'object' && a.error) {
       finishUploadSuccess = false;
