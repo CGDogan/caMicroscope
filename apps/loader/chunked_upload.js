@@ -131,12 +131,8 @@ function finishUpload() {
   regReq.then((x)=>x.json()).then((a)=>{
     changeStatus('UPLOAD | Finished', a, reset); reset = false;
     console.log(a);
-    console.log("receive handler a123")
-    if (a.filename) {
-      console.log("changing name from")
-      console.log(document.getElementById('filename'+0).value)
-      document.getElementById('filename'+0).value = a.filename;
-      console.log(document.getElementById('filename'+0).value)
+    if (a.filepath) {
+      document.getElementById('filename'+0).value = a.filepath.slice(a.filepath.lastIndexOf('/')+1);
     }
     if (typeof a === 'object' && a.error) {
       finishUploadSuccess = false;
