@@ -132,7 +132,11 @@ function finishUpload() {
     changeStatus('UPLOAD | Finished', a, reset); reset = false;
     console.log(a);
     if (a.filepath) {
-      document.getElementById('filename'+0).value = a.filepath.slice(a.filepath.lastIndexOf('/')+1);
+      filename = a.filepath.slice(a.filepath.lastIndexOf('/')+1);
+      document.getElementById('filename'+0).value = filename;
+      if (!filenameChange) {
+        oldFilename = filename;
+      }
     }
     if (typeof a === 'object' && a.error) {
       finishUploadSuccess = false;
