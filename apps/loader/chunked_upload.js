@@ -131,6 +131,9 @@ function finishUpload() {
   regReq.then((x)=>x.json()).then((a)=>{
     changeStatus('UPLOAD | Finished', a, reset); reset = false;
     console.log(a);
+    if (a.filename) {
+      document.getElementById('filename'+0).value = a.filename;
+    }
     if (typeof a === 'object' && a.error) {
       finishUploadSuccess = false;
       $('#check_btn').hide();
