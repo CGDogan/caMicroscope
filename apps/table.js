@@ -420,6 +420,7 @@ function initialize() {
 
               allSlides = data;
 
+              // Restore sort order
               const thead = HeadMapping.map((d, i) => `<th>${sanitize(d.title)} <span id="sort-btn-${i}" class="sort-btn fa fa-sort" data-order=${(sortIndex == i) ? sortOrder : 1}
               data-index=${i}>  </span> </th>`);
 
@@ -485,6 +486,8 @@ function initialize() {
               </tr>
             </tfoot>`;
 
+              // Restore filtering
+              filterSlides();
               showTablePage();
 
               $('#search-table').on('keyup', filterSlides);
