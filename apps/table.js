@@ -485,6 +485,7 @@ function initialize() {
                 let comparisonDirection = parseInt(e.currentTarget.dataset.order);
                 // indexOf gives a negative number when not found
                 let previousPriority = Math.max(sortParams.indexOf(comparatorIndex), sortParams.indexOf(-comparatorIndex));
+                e.currentTarget.dataset.order = comparisonDirection == 1 ? 2 : 1;
                 let oldSign = comparisonDirection == 1 ? 1 : -1;
                 let toggledSign = -oldSign;
                 sortParams.splice(previousPriority, 1);
