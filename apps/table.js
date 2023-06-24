@@ -481,10 +481,11 @@ function initialize() {
               $('#search-table').on('keyup', filterSlides);
 
               $('.sort-btn').on('click', function(e) {
-                let comparatorIndex = parseInt(e.currentTarget.dataset.order);
+                let comparatorIndex = parseInt(e.currentTarget.dataset.index);
+                let comparisonDirection = parseInt(e.currentTarget.dataset.order);
                 // indexOf gives a negative number when not found
                 let previousPriority = Math.max(sortParams.indexOf(comparatorIndex), sortParams.indexOf(-comparatorIndex));
-                let oldSign = comparatorIndex == 1 ? 1 : -1;
+                let oldSign = comparisonDirection == 1 ? 1 : -1;
                 let toggledSign = -oldSign;
                 sortParams.splice(previousPriority, 1);
                 sortParams = [toggledSign * comparatorIndex].concat(sortParams);
