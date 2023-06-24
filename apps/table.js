@@ -420,7 +420,7 @@ function initialize() {
 
               allSlides = data;
 
-              const thead = HeadMapping.map((d, i) => `<th>${sanitize(d.title)} <span class="sort-btn fa fa-sort" data-order=${1}
+              const thead = HeadMapping.map((d, i) => `<th>${sanitize(d.title)} <span id="sort-btn-${i}" class="sort-btn fa fa-sort" data-order=${1}
               data-index=${i}>  </span> </th>`);
 
               thead.push('<th></th>');
