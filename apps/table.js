@@ -234,7 +234,6 @@ function createCheckbox(val) {
 function initialize() {
   $('#filenameRow, #tokenRow, #slidenameRow, #filterRow').hide();
   $('#search-table').val(filterValue);
-  $('#sort-btn-' + sortIndex)[0].dataset.order = sortOrder;
   let filters = getUserFilter();
   let isWildcard = false;
   allSlides = [];
@@ -436,6 +435,9 @@ function initialize() {
                 entriesPerPage = $('#entries').val();
               }
               totaltablepages = Math.ceil(data.length / entriesPerPage);
+
+              // Restore sort order
+              $('#sort-btn-' + sortIndex)[0].dataset.order = sortOrder;
 
               if (data.length > 0 && $('.container').children().length === 0) {
                 $('.container').html(`
