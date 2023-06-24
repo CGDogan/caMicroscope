@@ -420,7 +420,7 @@ function initialize() {
 
               allSlides = data;
 
-              const thead = HeadMapping.map((d, i) => `<th>${sanitize(d.title)} <span id="sort-btn-${i}" class="sort-btn fa fa-sort" data-order=${1}
+              const thead = HeadMapping.map((d, i) => `<th>${sanitize(d.title)} <span id="sort-btn-${i}" class="sort-btn fa fa-sort" data-order=${(sortIndex == i) ? sortOrder : 1}
               data-index=${i}>  </span> </th>`);
 
               thead.push('<th></th>');
@@ -435,9 +435,6 @@ function initialize() {
                 entriesPerPage = $('#entries').val();
               }
               totaltablepages = Math.ceil(data.length / entriesPerPage);
-
-              // Restore sort order
-              $('#sort-btn-' + sortIndex)[0].dataset.order = sortOrder;
 
               if (data.length > 0 && $('.container').children().length === 0) {
                 $('.container').html(`
