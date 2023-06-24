@@ -161,7 +161,7 @@ function sortSlides() {
       bt = bt.toLowerCase();
     }
     if (sortOrder === 1) {
-      e.currentTarget.dataset.order = 2;
+      sortOrder = 2; // TODO: does e.currentTarget.dataset.order this change html?
       if (at > bt) {
         return 1;
       } else if (at < bt) {
@@ -170,7 +170,7 @@ function sortSlides() {
         return 0;
       }
     } else {
-      e.currentTarget.dataset.order = 1;
+      sortOrder = 1;
       if (at < bt) {
         return 1;
       } else if (at > bt) {
@@ -490,6 +490,11 @@ function initialize() {
               $('.sort-btn').on('click', function(e) {
                 sortIndex = e.currentTarget.dataset.index;
                 sortOrder = parseInt(e.currentTarget.dataset.order);
+                console.log(e) // todo remove me
+                console.log(e.currentTarget) // todo remove me
+                console.log(e.currentTarget.dataset) // todo remove me
+                console.log(e.currentTarget.dataset.order) // todo remove me
+
                 showTablePage();
               });
 
