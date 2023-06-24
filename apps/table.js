@@ -487,7 +487,7 @@ function initialize() {
                 let oldSign = comparatorIndex == 1 ? 1 : -1;
                 let toggledSign = -oldSign;
                 sortParams.splice(previousPriority, 1);
-                sortParams = [toggledSign * comparatorIndex].concat(softParams);
+                sortParams = [toggledSign * comparatorIndex].concat(sortParams);
                 sortSlides();
                 showTablePage();
               });
