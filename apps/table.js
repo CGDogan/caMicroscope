@@ -161,7 +161,6 @@ function sortSlides() {
       bt = bt.toLowerCase();
     }
     if (sortOrder === 1) {
-      sortOrder = 2;
       if (at > bt) {
         return 1;
       } else if (at < bt) {
@@ -170,7 +169,6 @@ function sortSlides() {
         return 0;
       }
     } else {
-      sortOrder = 1;
       if (at < bt) {
         return 1;
       } else if (at > bt) {
