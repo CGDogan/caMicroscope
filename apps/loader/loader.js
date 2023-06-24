@@ -172,7 +172,7 @@ function handleCheck(filename, reset, id, noRetry) {
         // errors aren't always non-success, so need to check here too
         if (success.error) {
           console.error(success.error);
-          throw success;
+          throw success.error;
         }
         success['ID'] = id;
         // Add the filename, to be able to fetch the thumbnail.
