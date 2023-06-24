@@ -105,7 +105,7 @@ var totaltablepages;
 var selectedpage = 0;
 var sortIndex;
 var sortOrder;
-var filterValue;
+var filterValue = "";
 var allSlides;
 
 if (getUserType() === 'Admin') {
