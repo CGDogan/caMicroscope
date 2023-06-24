@@ -142,7 +142,6 @@ function resetTable() {
     selectedpage = parseInt($(this).text()) - 1;
     showTablePage();
   });
-  selectedpage = 0;
   showTablePage();
 }
 
