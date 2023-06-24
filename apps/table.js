@@ -137,6 +137,7 @@ function showTablePage() {
 }
 
 function resetTable() {
+  selectedpage = 0;
   sortSlides();
   $('#datatables').stacktable();
   $('.pages').remove();
@@ -180,7 +181,6 @@ function sortSlides() {
     })
     .reduce((a, b) => a + b, '');
   $('#datatables > tbody').html(sortedSlideRows);
-  selectedpage = 0;
 }
 
 function resetUploadForm() {
@@ -490,6 +490,7 @@ function initialize() {
                 let toggledSign = -oldSign;
                 sortParams.splice(previousPriority, 1);
                 sortParams = [toggledSign * (comparatorIndex+1)].concat(sortParams);
+                selectedpage = 0;
                 sortSlides();
                 showTablePage();
               });
