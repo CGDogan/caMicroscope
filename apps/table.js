@@ -119,7 +119,14 @@ function showTablePage() {
   });
 
   var trs = '#datatables tbody tr';
-  $(trs).slice($('#entries').val() * selectedpage, $('#entries').val() * (selectedpage + 1)).filter(function() {
+  let entries = $(trs).slice($('#entries').val() * selectedpage, $('#entries').val() * (selectedpage + 1));
+  // For deletion
+  while (selectedpage >= 0 && entries.length == 0) {
+    selectedpage--;
+    entries = $(trs).slice($('#entries').val() * selectedpage, $('#entries').val() * (selectedpage + 1));
+  }
+
+  entries.filter(function () {
     $(this).show();
   });
 
