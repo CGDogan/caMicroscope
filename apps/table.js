@@ -121,7 +121,7 @@ function showTablePage() {
   var trs = '#datatables tbody tr';
   let entries = $(trs).slice($('#entries').val() * selectedpage, $('#entries').val() * (selectedpage + 1));
   // For deletion
-  while (selectedpage >= 0 && entries.length == 0) {
+  while (entries.length == 0 && $(trs).length != 0 && selectedpage > 0) {
     selectedpage--;
     entries = $(trs).slice($('#entries').val() * selectedpage, $('#entries').val() * (selectedpage + 1));
   }
