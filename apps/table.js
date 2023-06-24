@@ -234,6 +234,7 @@ function createCheckbox(val) {
 function initialize() {
   $('#filenameRow, #tokenRow, #slidenameRow, #filterRow').hide();
   $('#search-table').val(filterValue);
+  $('#sort-btn-' + sortIndex)[0].dataset.order = sortOrder;
   let filters = getUserFilter();
   let isWildcard = false;
   allSlides = [];
