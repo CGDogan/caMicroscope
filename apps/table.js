@@ -103,8 +103,8 @@ const HeadMapping = [{
 }];
 var totaltablepages;
 var selectedpage = 0;
-var sortIndex;
-var sortOrder;
+var sortIndex = 0;
+var sortOrder = 1;
 var filterValue = "";
 var allSlides;
 
