@@ -103,8 +103,10 @@ const HeadMapping = [{
 }];
 var totaltablepages;
 var selectedpage = 0;
-var sortIndex = 0;
-var sortOrder = 1;
+var sortParams = [1, 2, 3, 4, 5, 6];
+// 1-indexed array with decreasing priority and direction determined by sign
+// [1, -3] means sort by second decreasing then stable sort by zeroth increasing
+// or, sort by zeroth increeasing and break ties by second
 var filterValue = "";
 var allSlides;
 
@@ -153,36 +155,22 @@ function resetTable() {
 }
 
 function sortSlides() {
-  if (!sortIndex || !sortOrder)
-    return;
-
   let lambda = function (a, b) {
-    let at = a[sortIndex];
-    let bt = b[sortIndex];
-    if (!isNaN(at) && !isNaN(bt)) {
-      at = Number(at);
-      bt = Number(bt);
-    } else {
-      at = at.toLowerCase();
-      bt = bt.toLowerCase();
-    }
-    if (sortOrder === 1) {
-      if (at > bt) {
-        return 1;
-      } else if (at < bt) {
-        return -1;
+    let result = 0;
+    for (let i = 0; i < sortParams.length && !result; i++) {
+      let at = a[Math.abs(sortParams[i])];
+      let bt = b[Math.abs(sortParams[i])];
+      if (!isNaN(at) && !isNaN(bt)) {
+        at = Number(at);
+        bt = Number(bt);
       } else {
-        return 0;
+        at = at.toLowerCase();
+        bt = bt.toLowerCase();
       }
-    } else {
-      if (at < bt) {
-        return 1;
-      } else if (at > bt) {
-        return -1;
-      } else {
-        return 0;
-      }
+      result = at > bt ? 1 : (at < bt ? -1 : 0);
+      result *= Math.sign(sortParams[i]);
     }
+    return result;
   };
 
   const sortedSlideRows = allSlides.sort(lambda)
@@ -421,7 +409,7 @@ function initialize() {
               allSlides = data;
 
               // Restore sort order
-              const thead = HeadMapping.map((d, i) => `<th>${sanitize(d.title)} <span id="sort-btn-${i}" class="sort-btn fa fa-sort" data-order=${(sortIndex == i) ? sortOrder : 1}
+              const thead = HeadMapping.map((d, i) => `<th>${sanitize(d.title)} <span id="sort-btn-${i}" class="sort-btn fa fa-sort" data-order=${Math.sign(sortParams[i]) > 0 ? 1 : 2}
               data-index=${i}>  </span> </th>`);
 
               thead.push('<th></th>');
@@ -493,12 +481,13 @@ function initialize() {
               $('#search-table').on('keyup', filterSlides);
 
               $('.sort-btn').on('click', function(e) {
-                sortIndex = e.currentTarget.dataset.index;
-                if (parseInt(e.currentTarget.dataset.order) == 1) {
-                  sortOrder = e.currentTarget.dataset.order = 2;
-                } else {
-                  sortOrder = e.currentTarget.dataset.order = 1;
-                }
+                let comparatorIndex = parseInt(e.currentTarget.dataset.order);
+                // indexOf gives a negative number when not found
+                let previousPriority = Math.max(sortParams.indexOf(comparatorIndex), sortParams.indexOf(-comparatorIndex));
+                let oldSign = comparatorIndex == 1 ? 1 : -1;
+                let toggledSign = -oldSign;
+                sortParams.splice(previousPriority, 1);
+                sortParams = [toggledSign * comparatorIndex].concat(softParams);
                 sortSlides();
                 showTablePage();
               });
