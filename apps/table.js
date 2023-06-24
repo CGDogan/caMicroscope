@@ -1,3 +1,5 @@
+const { filter } = require("lodash");
+
 function sanitize(string) {
   string = string || '';
   const map = {
@@ -103,6 +105,9 @@ const HeadMapping = [{
 }];
 var totaltablepages;
 var selectedpage;
+var sortIndex;
+var sortOrder;
+var filterValue;
 var allSlides;
 
 if (getUserType() === 'Admin') {
@@ -125,6 +130,7 @@ function showTablePage() {
 }
 
 function resetTable() {
+  sortSlides();
   $('#datatables').stacktable();
   $('.pages').remove();
   $('#previous-page').after(function() {
@@ -140,6 +146,54 @@ function resetTable() {
   });
   selectedpage = 0;
   showTablePage();
+}
+
+function sortSlides() {
+  if (!sortIndex || !sortOrder)
+    return;
+
+  let lambda = function (a, b) {
+    let at = a[sortIndex];
+    let bt = b[sortIndex];
+    if (!isNaN(at) && !isNaN(bt)) {
+      at = Number(at);
+      bt = Number(bt);
+    } else {
+      at = at.toLowerCase();
+      bt = bt.toLowerCase();
+    }
+    if (sortOrder === 1) {
+      e.currentTarget.dataset.order = 2;
+      if (at > bt) {
+        return 1;
+      } else if (at < bt) {
+        return -1;
+      } else {
+        return 0;
+      }
+    } else {
+      e.currentTarget.dataset.order = 1;
+      if (at < bt) {
+        return 1;
+      } else if (at > bt) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }
+  };
+
+  // Optimization: check if already sorted
+
+
+  const sortedSlideRows = allSlides.sort(lambda)
+    .filter((slide) => slide.displayed)
+    .map((slide) => {
+      return '<tr>' + slide.map((a) => '<td>' + a + '</td>').reduce((a, b) => a + b) + '</tr>';
+    })
+    .reduce((a, b) => a + b, '');
+  $('#datatables > tbody').html(sortedSlideRows);
+  selectedpage = 0;
 }
 
 function resetUploadForm() {
@@ -180,6 +234,7 @@ function createCheckbox(val) {
 
 function initialize() {
   $('#filenameRow, #tokenRow, #slidenameRow, #filterRow').hide();
+  $('#search-table').val(filterValue);
   let filters = getUserFilter();
   let isWildcard = false;
   allSlides = [];
@@ -438,45 +493,8 @@ function initialize() {
               $('#search-table').on('keyup', filterSlides);
 
               $('.sort-btn').on('click', function(e) {
-                var index = e.currentTarget.dataset.index;
-                var order = parseInt(e.currentTarget.dataset.order);
-                const sortedSlideRows = allSlides.sort(function(a, b) {
-                  let at = a[index];
-                  let bt = b[index];
-                  if (!isNaN(at) && !isNaN(bt)) {
-                    at = Number(at);
-                    bt = Number(bt);
-                  } else {
-                    at = at.toLowerCase();
-                    bt = bt.toLowerCase();
-                  }
-                  if (order === 1) {
-                    e.currentTarget.dataset.order = 2;
-                    if (at > bt) {
-                      return 1;
-                    } else if (at < bt) {
-                      return -1;
-                    } else {
-                      return 0;
-                    }
-                  } else {
-                    e.currentTarget.dataset.order = 1;
-                    if (at < bt) {
-                      return 1;
-                    } else if (at > bt) {
-                      return -1;
-                    } else {
-                      return 0;
-                    }
-                  }
-                })
-                    .filter((slide) => slide.displayed)
-                    .map((slide) => {
-                      return '<tr>' + slide.map((a) => '<td>' + a + '</td>').reduce((a, b) => a + b) + '</tr>';
-                    })
-                    .reduce((a, b) => a + b, '');
-                $('#datatables > tbody').html(sortedSlideRows);
-                selectedpage = 0;
+                sortIndex = e.currentTarget.dataset.index;
+                sortOrder = parseInt(e.currentTarget.dataset.order);
                 showTablePage();
               });
 
@@ -956,7 +974,8 @@ function createCollectionPanel(data, cid) {
 }
 
 function filterSlides() {
-  let value = String($('#search-table').val()).toLowerCase();
+  filterValue = String($('#search-table').val());
+  let filter = filterValue.toLowerCase();
   let filters = getUserFilter();
   let filteredSlides;
   if (filters.length > 1 || (filters.length === 1 && filters[0] !== 'Public')) {
@@ -980,7 +999,7 @@ function filterSlides() {
   const searchedSlides = filteredSlides.filter(function(slide) {
     var ind = slide.slice(0, 5).reduce(function(a, b) {
       return a + ' ' + b;
-    }, ' ').toLowerCase().indexOf(value);
+    }, ' ').toLowerCase().indexOf(filter);
     if (ind > -1) {
       slide.displayed = true;
       return true;
