@@ -428,7 +428,9 @@ function initialize() {
                 entriesPerPage = $('#entries').val();
               }
               totaltablepages = Math.ceil(data.length / entriesPerPage);
-              selectedpage = 0;
+              if (!selectedpage) {
+                selectedpage = 0;
+              }
               $('#search-table').val('');
 
               if (data.length > 0 && $('.container').children().length === 0) {
