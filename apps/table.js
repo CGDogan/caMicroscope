@@ -158,8 +158,8 @@ function sortSlides() {
   let lambda = function (a, b) {
     let result = 0;
     for (let i = 0; i < sortParams.length && !result; i++) {
-      let at = a[Math.abs(sortParams[i])];
-      let bt = b[Math.abs(sortParams[i])];
+      let at = a[Math.abs(sortParams[i])-1];
+      let bt = b[Math.abs(sortParams[i])-1];
       if (!isNaN(at) && !isNaN(bt)) {
         at = Number(at);
         bt = Number(bt);
@@ -484,12 +484,12 @@ function initialize() {
                 let comparatorIndex = parseInt(e.currentTarget.dataset.index);
                 let comparisonDirection = parseInt(e.currentTarget.dataset.order);
                 // indexOf gives a negative number when not found
-                let previousPriority = Math.max(sortParams.indexOf(comparatorIndex), sortParams.indexOf(-comparatorIndex));
+                let previousPriority = Math.max(sortParams.indexOf(comparatorIndex+1), sortParams.indexOf(-comparatorIndex-1));
                 e.currentTarget.dataset.order = comparisonDirection == 1 ? 2 : 1;
                 let oldSign = comparisonDirection == 1 ? 1 : -1;
                 let toggledSign = -oldSign;
                 sortParams.splice(previousPriority, 1);
-                sortParams = [toggledSign * comparatorIndex].concat(sortParams);
+                sortParams = [toggledSign * (comparatorIndex+1)].concat(sortParams);
                 sortSlides();
                 showTablePage();
               });
