@@ -1,5 +1,3 @@
-const { filter } = require("lodash");
-
 function sanitize(string) {
   string = string || '';
   const map = {
@@ -182,9 +180,6 @@ function sortSlides() {
       }
     }
   };
-
-  // Optimization: check if already sorted
-
 
   const sortedSlideRows = allSlides.sort(lambda)
     .filter((slide) => slide.displayed)
