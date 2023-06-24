@@ -102,7 +102,7 @@ const HeadMapping = [{
   field: 'review',
 }];
 var totaltablepages;
-var selectedpage;
+var selectedpage = 0;
 var sortIndex;
 var sortOrder;
 var filterValue;
@@ -135,7 +135,7 @@ function showTablePage() {
 }
 
 function resetTable() {
-  sortSlides();
+  sortSlides(); // todo: move below?
   $('#datatables').stacktable();
   $('.pages').remove();
   $('#previous-page').after(function() {
@@ -435,9 +435,6 @@ function initialize() {
                 entriesPerPage = $('#entries').val();
               }
               totaltablepages = Math.ceil(data.length / entriesPerPage);
-              if (!selectedpage) {
-                selectedpage = 0;
-              }
               $('#search-table').val('');
 
               if (data.length > 0 && $('.container').children().length === 0) {
