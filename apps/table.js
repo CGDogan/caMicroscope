@@ -135,7 +135,7 @@ function showTablePage() {
 }
 
 function resetTable() {
-  sortSlides(); // todo: move below?
+  sortSlides();
   $('#datatables').stacktable();
   $('.pages').remove();
   $('#previous-page').after(function() {
