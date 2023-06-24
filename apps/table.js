@@ -492,6 +492,7 @@ function initialize() {
                 } else {
                   sortOrder = e.currentTarget.dataset.order = 1;
                 }
+                sortSlides();
                 showTablePage();
               });
 
