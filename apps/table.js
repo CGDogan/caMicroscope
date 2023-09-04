@@ -999,9 +999,9 @@ function filterSlides() {
 }
 
 // sets #dicomServer.value and #dicomExplorerBtn.href
-function setDicomParams() {
+async function setDicomParams() {
   if (!$("#dicomExplorerBtn").attr("href")) {
-    var x = fetch(window.location.host + "/loader/dicomsrv/location")
+    var x = await fetch(window.location.host + "/loader/dicomsrv/location")
     console.log("got it: " + x)
   }
 }
