@@ -1001,7 +1001,32 @@ function filterSlides() {
 // sets #dicomServer.value and #dicomExplorerBtn.href
 async function setDicomParams() {
   if (!$("#dicomExplorerBtn").attr("href")) {
-    var x = await fetch("/loader/dicomsrv/location")
-    console.log("got it: " + x)
+    let res = await fetch("/loader/dicomsrv/location");
+    let data = await res.json();
+    if (!res.ok) {
+      console.error(window.location.origin + "/loader/dicomsrv/location failed to retrieve port and ui_port. Got: " + JSON.stringify(data));
+      return;
+    }
+    let port = data.port;
+    let ui_port = data.ui_port;
+    let hostname = data.hostname;
+    let ui_hostname = data.ui_hostname;
+
+    if (!hostname) {
+      // Preserve http/https but not the port
+      hostname = window.location.origin.split(":").slice(0, 2).join(":")
+    }
+    hostname = hostname.toLowerCase()
+
+    if (!ui_hostname) {
+      ui_hostname = window.location.origin.split(":").slice(0, 2).join(":")
+    }
+    ui_hostname = ui_hostname.toLowerCase()
+    if (!ui_hostname.startsWith("http")) {
+      ui_hostname = "http://" + ui_hostname
+    }
+
+    $("#dicomExplorerBtn").attr("href", ui_hostname + ":" + ui_port);
+    $("#dicomServer").attr("value", hostname + ":" + port);
   }
 }
