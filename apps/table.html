@@ -186,13 +186,18 @@
                             </tbody>
                         </table>
                     </div>
-                    <!--TODO: button-->
-                    <td align="right"><b>Dicom Explorer</b></td>
+                        <button class="btn btn-success" type="button" id="post_btn" value="Post" onclick="validateForm(PostBtn)"
+                            style="display: none;">Finish Upload</button>
+                        <td align="right"><b>Dicom Explorer</b></td>
                                             <li class="list-group-item d-flex align-items-center justify-content-between active">
                                                 <i class="fas fa-archive"></i>
                                                 <div style="padding:0.2rem;font-weight: bold; font-size: large;">Collection</div>
                                                 <i class="fas fa-plus" style="cursor: pointer;"></i>
                                             </li>
+                                            <div class="text-center" id="controlButtons">
+                                                <button class="btn btn-success" type="button" id="post_btn" value="Post" onclick="validateForm(PostBtn)"
+                                                    style="display: none;">Finish Upload</button>
+                                            </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onclick="initialize();"
                             data-bs-dismiss="modal">Close</button>
