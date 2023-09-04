@@ -997,3 +997,8 @@ function filterSlides() {
   resetTable();
   pageIndicatorVisible(newSlideRows.length);
 }
+
+// sets #dicomServer.value and #dicomExplorerBtn.href
+function setDicomParams() {
+  //if (window.)
+}

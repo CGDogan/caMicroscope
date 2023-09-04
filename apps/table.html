@@ -136,7 +136,7 @@
             <div class="d-md-inline-flex" style="width:20%;">
                 <div class="pl-md-2 pt-2">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#dicom"
-                        class="btn btn2 btn-success float-right w-md-100" style="background-color: cadetblue; padding: 7px;"> <i
+                        class="btn btn2 btn-success float-right w-md-100" style="background-color: cadetblue; padding: 7px;" onclick="setDicomParams();"> <i
                             class="fas fa-server"></i>
                         <span class="">DICOM</span> </button>
                 </div>
@@ -165,19 +165,34 @@
 	</div>
 
 
-        <div class="modal fade" id="dicom" tabindex="-1" role="dialog" aria-labelledby="title-of-dialog"
+        <div class="modal fade" id="dicom" tabindex="-1" role="dialog" aria-labelledby="title-of-dialog-dicom"
             aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="title-of-dialog">DICOM Server</h5>
+                        <h5 class="modal-title" id="title-of-dialog-dicom">DICOM Server</h5>
                         <button type="button" class="close" onclick="initialize();" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!--TODO-->
+                        <table class="table table-borderless" cellpadding="5" cellspacing="0">
+                            <tbody>
+                                <tr id="dicomServerRow">
+                                    <td align="right"><b>Server</b></td>
+                                    <td><input type="text" class="form-control" disabled=""
+                                            name="token" id="dicomServer"></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+                    <!--TODO: button-->
+                    <td align="right"><b>Dicom Explorer</b></td>
+                                            <li class="list-group-item d-flex align-items-center justify-content-between active">
+                                                <i class="fas fa-archive"></i>
+                                                <div style="padding:0.2rem;font-weight: bold; font-size: large;">Collection</div>
+                                                <i class="fas fa-plus" style="cursor: pointer;"></i>
+                                            </li>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onclick="initialize();"
                             data-bs-dismiss="modal">Close</button>
