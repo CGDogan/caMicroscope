@@ -1013,12 +1013,12 @@ async function setDicomParams() {
     let ui_hostname = data.ui_hostname;
 
     if (!hostname) {
-      // Preserve http/https but not the port
-      hostname = window.location.origin.split(":").slice(0, 2).join(":")
+      hostname = window.location.hostname
     }
     hostname = hostname.toLowerCase()
 
     if (!ui_hostname) {
+      // Preserve http/https but not the port
       ui_hostname = window.location.origin.split(":").slice(0, 2).join(":")
     }
     ui_hostname = ui_hostname.toLowerCase()
