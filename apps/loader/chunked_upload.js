@@ -133,8 +133,8 @@ function finishUpload() {
     console.log(a);
     if (a.relpath) {
       document.getElementById('filename'+0).value = a.relpath;
-    } else if (a.filepath) {
-      document.getElementById('filename'+0).value = a.filepath;
+    } else if (a.filename) {
+      document.getElementById('filename'+0).value = a.filename;
     }
     if (typeof a === 'object' && a.error) {
       finishUploadSuccess = false;
