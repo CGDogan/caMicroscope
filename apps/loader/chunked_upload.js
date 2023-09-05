@@ -131,8 +131,10 @@ function finishUpload() {
   regReq.then((x)=>x.json()).then((a)=>{
     changeStatus('UPLOAD | Finished', a, reset); reset = false;
     console.log(a);
-    if (a.filepath) {
-      document.getElementById('filename'+0).value = a.filepath.slice(a.filepath.lastIndexOf('/')+1);
+    if (a.relpath) {
+      document.getElementById('filename'+0).value = a.relpath;
+    } else if (a.filepath) {
+      document.getElementById('filename'+0).value = a.filepath;
     }
     if (typeof a === 'object' && a.error) {
       finishUploadSuccess = false;
