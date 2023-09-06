@@ -21,8 +21,12 @@ $(document).ready(function() {
   store.findSlide().then((response) => {
     for (i=0; i<response.length; i++) {
       existingSlides.push(response[i].name);
-      existingFiles.push((response[i].location).substring((response[i].location).lastIndexOf('/')+1,
+      if (response[i].filepath) {
+        existingFiles.push(response[i].filepath);
+      } else {
+        existingFiles.push((response[i].location).substring((response[i].location).lastIndexOf('/')+1,
           (response[i].location).length));
+      }
     }
   }).catch((error) => {
     console.log(error);
