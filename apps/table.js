@@ -1005,6 +1005,7 @@ async function setDicomParams() {
     let data = await res.json();
     if (!res.ok) {
       console.error(window.location.origin + "/loader/dicomsrv/location failed to retrieve port and ui_port. Got: " + JSON.stringify(data));
+      $("#dicomServer").attr("value", "UNCONFIGURED");
       return;
     }
     let port = data.port;
