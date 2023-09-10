@@ -135,8 +135,6 @@ function finishUpload() {
       document.getElementById('filename'+0).value = a.relpath;
     } else if (a.filename) {
       document.getElementById('filename'+0).value = a.filename;
-    } else if (a.filepath) {
-      document.getElementById('filename'+0).value = a.filepath.slice(a.filepath.lastIndexOf('/')+1);
     }
     if (typeof a === 'object' && a.error) {
       finishUploadSuccess = false;

@@ -59,8 +59,17 @@ function changeStatus(step, text, reset=true) {
         }
       }
       if (step == 'CHECK') {
-        // show post button
-        if (text['location']) {
+        // During check, thumbnail needs to be fetched & added to the table
+        // In this case, text[col[col.length - 1]] is the filename
+        fetch(thumbUrl + text[col[col.length - 1]], {credentials: 'same-origin'}).then(
+            (response) => response.json(), // if the response is a JSON object
+        ).then((x)=>{
+          var tabCell = tr.cells[tr.cells.length-1];
+          tabCell.innerHTML = '';
+          const img = new Image();
+          img.src = x.slide;
+          tabCell.appendChild(img);
+          if (text['location']) {
             // indicating successful check
             checkSuccess = true;
             if (finishUploadSuccess === true) {
@@ -72,18 +81,8 @@ function changeStatus(step, text, reset=true) {
             checkSuccess = false;
             $('#post_btn').hide();
           }
-          // fetch thumbnail and add to table as we can
-          // In this case, text[col[col.length - 1]] is the filename
-          fetch(thumbUrl + text[col[col.length - 1]], {credentials: 'same-origin'}).then(
-              (response) => response.json(), // if the response is a JSON object
-          ).then((x)=>{
-            var tabCell = tr.cells[tr.cells.length-1];
-            tabCell.innerHTML = '';
-            const img = new Image();
-            img.src = x.slide;
-            tabCell.appendChild(img);
-          });
-        }
+        });
+      }
     }
 
     var divContainer = document.getElementById('json_table');
@@ -123,7 +122,7 @@ function handleDownload(id) {
       .then((response) => {
         if (response[0]) {
           if (response[0]['filepath']) {
-            return response[0]['filepath'];
+            return response[0]['filepath']
           }
           let location = response[0]['location'];
           return location.substring(location.lastIndexOf('/')+1, location.length);
@@ -176,7 +175,7 @@ function handleCheck(filename, reset, id, noRetry) {
         // errors aren't always non-success, so need to check here too
         if (success.error) {
           console.error(success.error);
-          throw success;
+          throw success.error;
         }
         success['ID'] = id;
         // Add the filename, to be able to fetch the thumbnail.
@@ -191,7 +190,7 @@ function handleCheck(filename, reset, id, noRetry) {
       let destFilename = filename.replace('.', '_') + '_conv.tif';
       document.getElementById('filename'+0).value = destFilename;
       convertSlide(filename, destFilename).then((x)=>handleCheck(destFilename, reset, id, true))
-          .catch((err)=>changeStatus('CHECK', error, reset));
+          .catch((err)=>noRetry||changeStatus('CHECK', error, reset));
     } else {
       console.info('not retrying');
       changeStatus('CHECK', error, reset); // Handle the error response object

@@ -402,10 +402,9 @@ function finishUpload(token, filename, i) {
   }});
   regReq.then((x)=>x.json()).then((a)=>{
     // changeStatus('UPLOAD | Finished', a, reset); reset = false;
-    if (a.filepath) {
-      const newName = a.filepath.slice(a.filepath.lastIndexOf('/')+1);
-      fileNames[i] = newName;
-      $('tr:eq('+(i+1)+') td:nth-child(2) span')[0].innerText = newName;
+    if (a.filename) {
+      fileNames[i] = a.filename;
+      $('tr:eq('+(i+1)+') td:nth-child(2) span')[0].innerText = a.filename;
     }
     if (a.relpath) {
       fileNames[i] = a.relpath;
