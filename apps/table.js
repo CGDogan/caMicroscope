@@ -283,6 +283,7 @@ function initialize() {
                     rs.filterList = ['Public'];
                   }
                   rs.displayed = true;
+                  console.log(d)
                   const filename = d.location.split('/')[d.location.split('/').length - 1];
                   keys.forEach((key, i) => {
                     if (i == 0) rs.push(d['_id']['$oid']);
